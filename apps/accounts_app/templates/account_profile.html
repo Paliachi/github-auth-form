@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Profile</title>
+</head>
+<body>
+  <h1>Hello, {{ user.username }}</h1>
+  <hr/>
+  <div>
+      <h3>Name:</h3>
+      <p>{{ profile.full_name }}</p>
+      <h3>Past Address:</h3>
+      <p>{{ profile.past_address }}</p>
+      <h3>Current Address:</h3>
+      <p>{{ profile.current_address }}</p>
+  </div>
+  <hr/>
+  <a href="{% url 'profileForm' %}" name="">Update Profile</a>
+  <hr/>
+  <a href="{% url 'logout' %}" name="LOGOUT">Log Out </a>
+</body>
+</html>
