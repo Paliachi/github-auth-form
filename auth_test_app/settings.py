@@ -134,8 +134,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # GITHUB_ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token'
 # GITHUB_API_BASE_URL = 'https://api.github.com/'
 
-SOCIAL_AUTH_GITHUB_KEY = 'ad7f7ea432e8926da4dc'
-SOCIAL_AUTH_GITHUB_SECRET = 'bd6c4ff0d248305d704c6c783da0e0afc2f71e2d'
+SOCIAL_AUTH_GITHUB_KEY = ''
+SOCIAL_AUTH_GITHUB_SECRET = ''
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
