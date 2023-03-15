@@ -19,21 +19,29 @@ def logout_view(request):
     return redirect('login')
 
 
-# @login_required(login_url='login')
 class AccountProfileView(LoginRequiredMixin, View):
+    """
+        Retrieves from db and displays Profile data.
+        If profile does not exist, redirects to ProfileFormView:get
+    """
     def get(self, request, *args, **kwargs):
         context = {}
         try:
             profile = Profile.objects.get(user_id=request.user.id)
             context['profile'] = profile
         except ObjectDoesNotExist:
-            pass
+            return redirect('profileForm')
 
         return render(request, 'account_profile.html', context)
 
 
-# @login_required(login_url='login')
-class ProfileFormView(View):
+class ProfileFormView(LoginRequiredMixin, View):
+    """
+        Creates, Reads and updates Profile's data.
+        GET: Retrieves or creates user's profile. When user enters for
+    the first time the profile is created automatically.
+        POST: Updates Profile.
+    """
     def get(self, request, *args, **kwargs):
         instance = Profile.objects.get_or_create(user=request.user)
         form = ProfileForm(instance=instance[0])
