@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,11 +11,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-fbzn$pk8xpumlxphqpbg)0jj=@rpwtw$sn$uay9*a_kh*jys*9'
 
+# SECRET_KEY = os.environ.get("SECRET_KEY") for prod
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -71,10 +73,15 @@ WSGI_APPLICATION = 'auth_test_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": 'django.db.backends.postgresql',
+        "NAME": os.environ.get("POSTGRES_DB", "postgres"),
+        "USER": os.environ.get("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "password"),
+        "HOST": os.environ.get("POSTGRES_HOST", "db"),
+        "PORT": os.environ.get("POSTGRES_PORT", "5432"),
     }
 }
 
@@ -120,22 +127,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.TokenAuthentication',
-#         'rest_framework_social_oauth2.authentication.SocialAuthentication',
-#     ],
-# }
+SOCIAL_AUTH_GITHUB_KEY='ad7f7ea432e8926da4dc'
+SOCIAL_AUTH_GITHUB_SECRET='bd6c4ff0d248305d704c6c783da0e0afc2f71e2d'
 
-# GitHub OAuth settings
-# GITHUB_CLIENT_ID = 'ad7f7ea432e8926da4dc'
-# GITHUB_CLIENT_SECRET = 'bd6c4ff0d248305d704c6c783da0e0afc2f71e2d'
-# GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
-# GITHUB_ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token'
-# GITHUB_API_BASE_URL = 'https://api.github.com/'
-
-SOCIAL_AUTH_GITHUB_KEY = ''
-SOCIAL_AUTH_GITHUB_SECRET = ''
+# SOCIAL_AUTH_GITHUB_KEY = os.environ.get("SOCIAL_AUTH_GITHUB_KEY")
+# SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("SOCIAL_AUTH_GITHUB_SECRET")
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
