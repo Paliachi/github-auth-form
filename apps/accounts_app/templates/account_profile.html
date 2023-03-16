@@ -19,5 +19,12 @@
   <a href="{% url 'profileForm' %}" name="">Update Profile</a>
   <hr/>
   <a href="{% url 'logout' %}" name="LOGOUT">Log Out </a>
+  <hr/>
+    <form action="{% url 'social:disconnect' 'github' %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-warning btn-xs">
+            Disconnect
+        </button>
+    </form>
 </body>
 </html>

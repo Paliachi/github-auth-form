@@ -5,12 +5,23 @@ from django.views.generic.base import View
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from social_django.views import disconnect, do_disconnect
+
+
 from .models import Profile
 from .forms import ProfileForm
 
 
 def github_login(request):
+
+    print(request, '%%%%%%%%%%%%%%%')
     return render(request, 'github_login.html', {})
+
+
+# def disconnect_user(request, backend):
+#     print(request, '%%%%%%%%%%%%%%%')
+#
+#     return do_disconnect(backend, request.user, redirect='login')
 
 
 @login_required(login_url='login')
