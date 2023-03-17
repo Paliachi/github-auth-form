@@ -20,11 +20,13 @@
   <hr/>
   <a href="{% url 'logout' %}" name="LOGOUT">Log Out </a>
   <hr/>
-    <form action="{% url 'social:disconnect' 'github' %}" method="post">
+    <form action="{% url 'deleteUser' %}" method="post">
         {% csrf_token %}
         <button class="btn btn-warning btn-xs">
-            Disconnect
+            DELETE USER
         </button>
     </form>
+
+
 </body>
 </html>

@@ -9,7 +9,10 @@ class AccountProfileViewTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.profile_url = reverse('profile')
-        self.user = Account.objects.create_user(username='Test', password='Test123!@#')
+        self.user = Account.objects.create_user(
+            username='Test',
+            password='Test123!@#'
+        )
 
     def test_profile_GET_not_logged_in(self):
         response = self.client.get(self.profile_url)
@@ -18,19 +21,15 @@ class AccountProfileViewTest(TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertEquals(request.status_code, 404)
 
-    def test_profile_GET_logged_in_and_profile_exists(self):
-        self.client.login(username='Test', password='Test123!@#')
-        Profile.objects.create(user=self.user, full_name='Test Tester')
+    def test_profile_GET_logged_in(self):
+        self.client.login(
+            username='Test',
+            password='Test123!@#'
+        )
         response = self.client.get(self.profile_url)
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'account_profile.html')
-
-    def test_profile_GET_logged_in_and_profile_does_not_exists(self):
-        self.client.login(username='Test', password='Test123!@#')
-        response = self.client.get(self.profile_url)
-
-        self.assertEquals(response.status_code, 302)
 
 
 class ProfileFormViewTest(TestCase):
@@ -55,7 +54,10 @@ class ProfileFormViewTest(TestCase):
         self.assertEquals(request.status_code, 404)
 
     def test_profile_form_GET_logged_in(self):
-        self.client.login(username='Test2', password='Test123!@#2')
+        self.client.login(
+            username='Test2',
+            password='Test123!@#2'
+        )
         response = self.client.get(self.profile_form_url)
 
         self.assertEquals(response.status_code, 200)
@@ -68,7 +70,10 @@ class ProfileFormViewTest(TestCase):
             'current_address': 'Current address'
         }
 
-        form = ProfileForm(data=data, instance=self.profile)
+        form = ProfileForm(
+            data=data,
+            instance=self.profile
+        )
         form.save()
         response = self.client.post(self.profile_form_url)
 
@@ -81,7 +86,10 @@ class ProfileFormViewTest(TestCase):
             'current_address': 'New Current address'
         }
 
-        form = ProfileForm(data=data, instance=self.profile)
+        form = ProfileForm(
+            data=data,
+            instance=self.profile
+        )
         form.save()
         response = self.client.post(self.profile_form_url)
         updated_instance = Profile.objects.get(user=self.user)
@@ -130,6 +138,24 @@ class LogoutViewTest(TestCase):
         self.assertTrue(sign_in)
         self.client.logout()
         self.assertEquals(response.status_code, 302)
+
+
+class DeleteUserViewTest(TestCase):
+    def test_delete_user_POST(self):
+        client = Client()
+        delete_url = reverse('deleteUser')
+        Account.objects.create_user(
+            username='tester131',
+            password='Test1234!@4',
+        )
+        client.login(
+            username='tester131',
+            password='Test1234!@4'
+        )
+        response = client.post(delete_url)
+
+        self.assertEquals(response.status_code, 302)
+
 
 
 

@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'social_django',
     'rest_framework',
 
-    'apps.accounts_app',
+    'apps.accounts_app.apps.AccountsAppConfig',
 
 ]
 
@@ -133,33 +133,28 @@ SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("SOCIAL_AUTH_GITHUB_SECRET")
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
-
     'django.contrib.auth.backends.ModelBackend',
 )
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 LOGIN_REDIRECT_URL = '/profile/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'login/'
 
 AUTH_USER_MODEL = 'accounts_app.Account'
 
-# SOCIAL_AUTH_PIPELINE = (
-#     'social.pipeline.social_auth.social_details',
-#     'social.pipeline.social_auth.social_uid',
-#     'social.pipeline.social_auth.auth_allowed',
-#     'social.pipeline.social_auth.social_user',
-#     'social.pipeline.user.get_username',
-#     'social.pipeline.mail.mail_validation',
-#     'social.pipeline.user.create_user',
-#     'social.pipeline.social_auth.associate_user',
-#     'social.pipeline.social_auth.load_extra_data',
-#     'social.pipeline.user.user_details'
-# )
-#
 # SOCIAL_AUTH_DISCONNECT_PIPELINE = (
-#     'social.pipeline.disconnect.allowed_to_disconnect',
-#     'social.pipeline.disconnect.get_entries',
-#     'social.pipeline.disconnect.revoke_tokens',
-#     'social.pipeline.disconnect.disconnect'
+#     # Verifies that the social association can be disconnected from the current
+#     # user (ensure that the user login mechanism is not compromised by this
+#     # disconnection).
+#     'social_core.pipeline.disconnect.allowed_to_disconnect',
+#
+#     # Collects the social associations to disconnect.
+#     'social_core.pipeline.disconnect.get_entries',
+#
+#     # Revoke any access_token when possible.
+#     'social_core.pipeline.disconnect.revoke_tokens',
+#
+#     # Removes the social associations.
+#     'social_core.pipeline.disconnect.disconnect',
 # )
