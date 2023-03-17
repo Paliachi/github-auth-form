@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .models import Account, Profile
+from apps.accounts_app.models import Profile, Account
 
 
 class ProfileTestCase(TestCase):
@@ -10,7 +10,7 @@ class ProfileTestCase(TestCase):
             email='tester@tester.com',
             password='Testing123!@#'
         )
-        Profile.objects.create(
+        Profile.objects.update(
             user=user,
             full_name="Test Test",
             past_address='Past 10',

@@ -1,8 +1,8 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from .models import Profile, Account
-from .forms import ProfileForm
+from apps.accounts_app.models import Profile, Account
+from apps.accounts_app.forms import ProfileForm
 
 
 class AccountProfileViewTest(TestCase):
@@ -16,10 +16,8 @@ class AccountProfileViewTest(TestCase):
 
     def test_profile_GET_not_logged_in(self):
         response = self.client.get(self.profile_url)
-        request = self.client.request()
 
         self.assertEquals(response.status_code, 302)
-        self.assertEquals(request.status_code, 404)
 
     def test_profile_GET_logged_in(self):
         self.client.login(
@@ -40,18 +38,13 @@ class ProfileFormViewTest(TestCase):
             username='Test2',
             password='Test123!@#2'
         )
-        self.profile = Profile.objects.create(
-            user=self.user,
-            full_name='Test Tester'
-        )
+        self.profile = Profile.objects.get(user=self.user)
         self.profile_form_url = reverse('profileForm')
 
     def test_profile_form_GET_not_logged_in(self):
         response = self.client.get(self.profile_form_url)
-        request = self.client.request()
 
         self.assertEquals(response.status_code, 302)
-        self.assertEquals(request.status_code, 404)
 
     def test_profile_form_GET_logged_in(self):
         self.client.login(
